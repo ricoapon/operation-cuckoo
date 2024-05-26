@@ -1,6 +1,6 @@
 export type Coordinate = {
-    x: number,
-    y: number
+    q: number,
+    r: number
 }
 
 export enum PieceType {

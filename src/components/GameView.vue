@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue"
+import { Coordinate } from "../game/game-types"
 
 export type Translate = {
-    coordinate_x: number
-    coordinate_y: number
+    c: Coordinate
     x: number
     y: number
 }
@@ -37,8 +37,7 @@ for (let i = 0; i < startingHexagons.length; i++) {
 
     for (var j = 0; j < nrOfHexagonsToDraw; j++) {
         translatesAllHexagons.push({
-            coordinate_x: i,
-            coordinate_y: j + Math.floor(i / 2),
+            c: {q: i, r: j + Math.floor(i / 2)},
             x: translate0.x,
             y: translate0.y + j * dY_downwards
         })
@@ -64,12 +63,12 @@ function onHexagonClick(x: number, y: number) {
         <g class="pod-wrap">
             <use href="#pod" v-for="translate in translatesAllHexagons"
                 v-bind:transform="'translate(' + translate.x + ',' + translate.y + ')'"
-                v-bind:id="'hexagon_' + translate.coordinate_x + '_' + translate.coordinate_y"
-                v-on:click="onHexagonClick(translate.coordinate_x, translate.coordinate_y)" />
+                v-bind:id="'hexagon_' + translate.c.q + '_' + translate.c.r"
+                v-on:click="onHexagonClick(translate.c.q, translate.c.r)" />
             
             <text font-size="6px" font-family="monospace" v-for="translate in translatesAllHexagons"
             v-bind:transform="'translate(' + (translate.x - 6) + ',' + (translate.y + 2) + ')'">
-                {{ translate.coordinate_x }},{{ translate.coordinate_y }}</text>
+                {{ translate.c.q }},{{ translate.c.r }}</text>
         </g>
     </svg>
 </template>
