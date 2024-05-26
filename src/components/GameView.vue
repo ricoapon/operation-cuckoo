@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { ref } from "vue"
 
 export type Translate = {
-    x: int,
-    y: int;
+    // We use "even-q" system.
+    coordinate_x: number
+    coordinate_y: number
+    x: number
+    y: number
 }
 
 var strokeWidth = 0.5
@@ -33,13 +37,24 @@ for (let i = 0; i < startingHexagons.length; i++) {
     var nrOfHexagonsToDraw = (i % 2 == 0) ? 8 : 9
 
     for (var j = 0; j < nrOfHexagonsToDraw; j++) {
-        translatesAllHexagons.push({ x: translate0.x, y: translate0.y + j * dY_downwards })
+        translatesAllHexagons.push({
+            coordinate_x: i,
+            coordinate_y: j,
+            x: translate0.x,
+            y: translate0.y + j * dY_downwards
+        })
     }
+}
+
+const clicked = ref<number[]>([])
+function onHexagonClick(x: number, y: number) {
+    clicked.value = [x, y]
 }
 
 </script>
 
 <template>
+    <p>You clicked {{ clicked }}</p>
     <svg viewBox="0 0 110.5 162.25">
         <defs>
             <g id="pod">
@@ -48,18 +63,10 @@ for (let i = 0; i < startingHexagons.length; i++) {
         </defs>
 
         <g class="pod-wrap">
-            <use xlink:href="#pod" v-for="point in translatesAllHexagons"
-                v-bind:transform="'translate(' + point.x + ',' + point.y + ')'" />
-
-
-            <!-- <use xlink:href="#pod" transform="translate(10.25, 9.25)" />
-      <use xlink:href="#pod" transform="translate(25.25, 18.25)" />
-      <use xlink:href="#pod" transform="translate(10.25, 27.25)" />
-      <use xlink:href="#pod" transform="translate(10.25, 45.25)" />
-
-      <use xlink:href="#pod" transform="translate(35, 50)" />
-      <use xlink:href="#pod" transform="translate(65, 50)" />
-      <use xlink:href="#pod" transform="translate(50, 59)" /> -->
+            <use xlink:href="#pod" v-for="translate in translatesAllHexagons"
+                v-bind:transform="'translate(' + translate.x + ',' + translate.y + ')'"
+                v-bind:id="'hexagon_' + translate.coordinate_x + '_' + translate.coordinate_y"
+                v-on:click="onHexagonClick(translate.coordinate_x, translate.coordinate_y)" />
         </g>
     </svg>
 </template>
