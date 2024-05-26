@@ -1,5 +1,7 @@
-<svg data-v-ee9b8f20="" viewBox="0 0 110.5 162.25">
-<!-- This SVG is generated using the code below. -->
+<!--
+    For some reason, this SVG does not work in GitHub. So I stored it as a PNG instead.
+    If it is ever needed to change the PNG, the source below can be editted to recreate it.
+ -->
 
 <!--
 <script setup lang="ts">
@@ -66,13 +68,9 @@ function onHexagonClick(x: number, y: number) {
         </defs>
 
         <g class="pod-wrap">
-            <use xlink:href="#pod" v-for="translate in translatesAllHexagons"
-                v-bind:transform="'translate(' + translate.x + ',' + translate.y + ')'"
-                v-bind:id="'hexagon_' + translate.coordinate_x + '_' + translate.coordinate_y"
-                v-on:click="onHexagonClick(translate.coordinate_x, translate.coordinate_y)" />
+            <use href="#pod" v-for="translate in translatesAllHexagons" v-bind:transform="'translate(' + translate.x + ',' + translate.y + ')'" v-bind:id="'hexagon_' + translate.coordinate_x + '_' + translate.coordinate_y" v-on:click="onHexagonClick(translate.coordinate_x, translate.coordinate_y)" />
             
-            <text font-size="6px" font-family="monospace" v-for="translate in translatesAllHexagons"
-            v-bind:transform="'translate(' + (translate.x - 6) + ',' + (translate.y + 2) + ')'">
+            <text font-size="6px" font-family="monospace" v-for="translate in translatesAllHexagons" v-bind:transform="'translate(' + (translate.x - 6) + ',' + (translate.y + 2) + ')'">
                 {{ translate.coordinate_x }},{{ translate.coordinate_y }}</text>
         </g>
     </svg>
@@ -99,71 +97,72 @@ svg {
 </style>
 -->
 
+<svg data-v-ee9b8f20="" viewBox="0 0 110.5 162.25">
     <defs data-v-ee9b8f20="">
         <g data-v-ee9b8f20="" id="pod">
             <polygon data-v-ee9b8f20="" stroke="#000000" stroke-width="0.5" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0"></polygon>
         </g>
     </defs>
     <g data-v-ee9b8f20="" class="pod-wrap">
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(10.25,18.25)" id="hexagon_0_0"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(10.25,36.25)" id="hexagon_0_1"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(10.25,54.25)" id="hexagon_0_2"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(10.25,72.25)" id="hexagon_0_3"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(10.25,90.25)" id="hexagon_0_4"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(10.25,108.25)" id="hexagon_0_5"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(10.25,126.25)" id="hexagon_0_6"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(10.25,144.25)" id="hexagon_0_7"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,9.25)" id="hexagon_1_0"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,27.25)" id="hexagon_1_1"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,45.25)" id="hexagon_1_2"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,63.25)" id="hexagon_1_3"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,81.25)" id="hexagon_1_4"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,99.25)" id="hexagon_1_5"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,117.25)" id="hexagon_1_6"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,135.25)" id="hexagon_1_7"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(25.25,153.25)" id="hexagon_1_8"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(40.25,18.25)" id="hexagon_2_1"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(40.25,36.25)" id="hexagon_2_2"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(40.25,54.25)" id="hexagon_2_3"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(40.25,72.25)" id="hexagon_2_4"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(40.25,90.25)" id="hexagon_2_5"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(40.25,108.25)" id="hexagon_2_6"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(40.25,126.25)" id="hexagon_2_7"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(40.25,144.25)" id="hexagon_2_8"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,9.25)" id="hexagon_3_1"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,27.25)" id="hexagon_3_2"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,45.25)" id="hexagon_3_3"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,63.25)" id="hexagon_3_4"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,81.25)" id="hexagon_3_5"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,99.25)" id="hexagon_3_6"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,117.25)" id="hexagon_3_7"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,135.25)" id="hexagon_3_8"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(55.25,153.25)" id="hexagon_3_9"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(70.25,18.25)" id="hexagon_4_2"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(70.25,36.25)" id="hexagon_4_3"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(70.25,54.25)" id="hexagon_4_4"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(70.25,72.25)" id="hexagon_4_5"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(70.25,90.25)" id="hexagon_4_6"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(70.25,108.25)" id="hexagon_4_7"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(70.25,126.25)" id="hexagon_4_8"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(70.25,144.25)" id="hexagon_4_9"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,9.25)" id="hexagon_5_2"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,27.25)" id="hexagon_5_3"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,45.25)" id="hexagon_5_4"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,63.25)" id="hexagon_5_5"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,81.25)" id="hexagon_5_6"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,99.25)" id="hexagon_5_7"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,117.25)" id="hexagon_5_8"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,135.25)" id="hexagon_5_9"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(85.25,153.25)" id="hexagon_5_10"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(100.25,18.25)" id="hexagon_6_3"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(100.25,36.25)" id="hexagon_6_4"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(100.25,54.25)" id="hexagon_6_5"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(100.25,72.25)" id="hexagon_6_6"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(100.25,90.25)" id="hexagon_6_7"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(100.25,108.25)" id="hexagon_6_8"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(100.25,126.25)" id="hexagon_6_9"></use>
-        <use data-v-ee9b8f20="" xlink:href="#pod" transform="translate(100.25,144.25)" id="hexagon_6_10"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(10.25,18.25)" id="hexagon_0_0"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(10.25,36.25)" id="hexagon_0_1"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(10.25,54.25)" id="hexagon_0_2"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(10.25,72.25)" id="hexagon_0_3"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(10.25,90.25)" id="hexagon_0_4"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(10.25,108.25)" id="hexagon_0_5"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(10.25,126.25)" id="hexagon_0_6"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(10.25,144.25)" id="hexagon_0_7"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,9.25)" id="hexagon_1_0"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,27.25)" id="hexagon_1_1"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,45.25)" id="hexagon_1_2"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,63.25)" id="hexagon_1_3"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,81.25)" id="hexagon_1_4"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,99.25)" id="hexagon_1_5"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,117.25)" id="hexagon_1_6"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,135.25)" id="hexagon_1_7"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(25.25,153.25)" id="hexagon_1_8"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(40.25,18.25)" id="hexagon_2_1"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(40.25,36.25)" id="hexagon_2_2"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(40.25,54.25)" id="hexagon_2_3"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(40.25,72.25)" id="hexagon_2_4"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(40.25,90.25)" id="hexagon_2_5"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(40.25,108.25)" id="hexagon_2_6"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(40.25,126.25)" id="hexagon_2_7"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(40.25,144.25)" id="hexagon_2_8"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,9.25)" id="hexagon_3_1"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,27.25)" id="hexagon_3_2"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,45.25)" id="hexagon_3_3"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,63.25)" id="hexagon_3_4"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,81.25)" id="hexagon_3_5"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,99.25)" id="hexagon_3_6"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,117.25)" id="hexagon_3_7"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,135.25)" id="hexagon_3_8"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(55.25,153.25)" id="hexagon_3_9"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(70.25,18.25)" id="hexagon_4_2"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(70.25,36.25)" id="hexagon_4_3"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(70.25,54.25)" id="hexagon_4_4"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(70.25,72.25)" id="hexagon_4_5"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(70.25,90.25)" id="hexagon_4_6"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(70.25,108.25)" id="hexagon_4_7"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(70.25,126.25)" id="hexagon_4_8"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(70.25,144.25)" id="hexagon_4_9"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,9.25)" id="hexagon_5_2"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,27.25)" id="hexagon_5_3"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,45.25)" id="hexagon_5_4"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,63.25)" id="hexagon_5_5"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,81.25)" id="hexagon_5_6"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,99.25)" id="hexagon_5_7"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,117.25)" id="hexagon_5_8"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,135.25)" id="hexagon_5_9"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(85.25,153.25)" id="hexagon_5_10"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(100.25,18.25)" id="hexagon_6_3"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(100.25,36.25)" id="hexagon_6_4"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(100.25,54.25)" id="hexagon_6_5"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(100.25,72.25)" id="hexagon_6_6"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(100.25,90.25)" id="hexagon_6_7"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(100.25,108.25)" id="hexagon_6_8"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(100.25,126.25)" id="hexagon_6_9"></use>
+        <use data-v-ee9b8f20="" href="#pod" transform="translate(100.25,144.25)" id="hexagon_6_10"></use>
         <text data-v-ee9b8f20="" font-size="6px" font-family="monospace" transform="translate(4.25,20.25)">0,0</text>
         <text data-v-ee9b8f20="" font-size="6px" font-family="monospace" transform="translate(4.25,38.25)">0,1</text>
         <text data-v-ee9b8f20="" font-size="6px" font-family="monospace" transform="translate(4.25,56.25)">0,2</text>
