@@ -1,9 +1,13 @@
-# Vue 3 + TypeScript + Vite
+# Operation Cuckoo
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is an implementation of the board game [Operation Cuckoo](https://boardgamegeek.com/boardgame/367799/operation-cuckoo).
 
-## Recommended Setup
+# Technical details
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+This is a Vue 3 workspace using Typescript and Vite.
 
-- Use [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating d.ts files for SFCs.
+## Coordinate
+
+We have a hexagon grid, for which there are many different coordinate systems. In this project we use the [Axial coordinate system](https://www.redblobgames.com/grids/hexagons/#coordinates). For our board, it looks like this:
+
+![Coordinate system](./coordinate-system.svg)

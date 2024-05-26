@@ -2,7 +2,6 @@
 import { ref } from "vue"
 
 export type Translate = {
-    // We use "even-q" system.
     coordinate_x: number
     coordinate_y: number
     x: number
@@ -39,7 +38,7 @@ for (let i = 0; i < startingHexagons.length; i++) {
     for (var j = 0; j < nrOfHexagonsToDraw; j++) {
         translatesAllHexagons.push({
             coordinate_x: i,
-            coordinate_y: j,
+            coordinate_y: j + Math.floor(i / 2),
             x: translate0.x,
             y: translate0.y + j * dY_downwards
         })
@@ -67,6 +66,10 @@ function onHexagonClick(x: number, y: number) {
                 v-bind:transform="'translate(' + translate.x + ',' + translate.y + ')'"
                 v-bind:id="'hexagon_' + translate.coordinate_x + '_' + translate.coordinate_y"
                 v-on:click="onHexagonClick(translate.coordinate_x, translate.coordinate_y)" />
+            
+            <text font-size="6px" font-family="monospace" v-for="translate in translatesAllHexagons"
+            v-bind:transform="'translate(' + (translate.x - 6) + ',' + (translate.y + 2) + ')'">
+                {{ translate.coordinate_x }},{{ translate.coordinate_y }}</text>
         </g>
     </svg>
 </template>
