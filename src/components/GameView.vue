@@ -62,7 +62,7 @@ function onHexagonClick(x: number, y: number) {
         </defs>
 
         <g class="pod-wrap">
-            <use xlink:href="#pod" v-for="translate in translatesAllHexagons"
+            <use href="#pod" v-for="translate in translatesAllHexagons"
                 v-bind:transform="'translate(' + translate.x + ',' + translate.y + ')'"
                 v-bind:id="'hexagon_' + translate.coordinate_x + '_' + translate.coordinate_y"
                 v-on:click="onHexagonClick(translate.coordinate_x, translate.coordinate_y)" />
