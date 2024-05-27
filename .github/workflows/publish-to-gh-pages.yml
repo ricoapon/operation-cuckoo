@@ -1,0 +1,22 @@
+name: Publish to GitHub Pages
+on:
+  push:
+    branches:
+      - master
+      - main
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Publish
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
