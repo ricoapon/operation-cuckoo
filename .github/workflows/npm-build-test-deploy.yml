@@ -33,10 +33,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: .
       - name: Publish
         uses: actions/deploy-pages@v4
-        with:
-          path: .
