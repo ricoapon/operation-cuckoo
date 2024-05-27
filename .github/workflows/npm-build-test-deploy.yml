@@ -1,4 +1,4 @@
-name: NPM test
+name: NPM build test deploy
 on: [push, pull_request]
 jobs:
   build-and-test:
