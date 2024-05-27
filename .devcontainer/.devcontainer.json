@@ -1,0 +1,17 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+{
+	"name": "Node.js & TypeScript",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Vue.volar",
+                "vitest.explorer",
+				"eamodio.gitlens"
+			]
+		}
+	},
+	"onCreateCommand": "npm install",
+	"forwardPorts": [ 5173 ]
+}
