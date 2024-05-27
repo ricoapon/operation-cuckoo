@@ -37,6 +37,6 @@ jobs:
         with:
           path: .
       - name: Publish
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/deploy-pages@v4
         with:
           path: .
