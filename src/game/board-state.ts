@@ -4,7 +4,7 @@ import { determinePieceOnCoordinate, determinePossibleMoves } from "./moves"
 /**
  * Immutable data-class representing all the pieces located on the board.
  */
-export class GameState {
+export class BoardState {
     // Player 1 has all the pieces on the top of the board (coordinates with x = 0),
     // and player 2 at the bottom of the board (coordinates with x = 8).
     private readonly p1Pieces: Piece[]
@@ -12,7 +12,7 @@ export class GameState {
     private readonly playingState: PlayingState
     private readonly possibleMoves: Move[]
 
-    static createInitialBoardState(): GameState {
+    static createInitialBoardState(): BoardState {
         let p1Pieces = [
             { type: PieceType.WARBLER, c: { q: 1, r: 0 } },
             { type: PieceType.CUCKOO, c: { q: 3, r: 1 } },
@@ -35,7 +35,7 @@ export class GameState {
             p2Pieces.push({ type: PieceType.EGG, c: { q: i, r: r0 + 1 } })
         }
 
-        return new GameState(p1Pieces, p2Pieces, PlayingState.PLAYER_1_MOVES)
+        return new BoardState(p1Pieces, p2Pieces, PlayingState.PLAYER_1_MOVES)
     }
 
     constructor(p1Pieces: Piece[], p2Pieces: Piece[], playingState: PlayingState) {
@@ -45,7 +45,7 @@ export class GameState {
         this.possibleMoves = determinePossibleMoves(p1Pieces, p2Pieces, this.isP1Turn())
     }
 
-    makeMove(move: Move): GameState {
+    makeMove(move: Move): BoardState {
         if (!this.isStillPlaying()) {
             throw new Error('Cannot execute a move, because the game has already ended')
         }
@@ -69,7 +69,7 @@ export class GameState {
             otherPlayerPieces.splice(otherPlayerPieces.indexOf(capturedPiece), 1)
         }
 
-        return new GameState(newP1Pieces, newP2Pieces, (this.isP1Turn()) ? PlayingState.PLAYER_2_MOVES : PlayingState.PLAYER_1_MOVES)
+        return new BoardState(newP1Pieces, newP2Pieces, (this.isP1Turn()) ? PlayingState.PLAYER_2_MOVES : PlayingState.PLAYER_1_MOVES)
     }
 
     /**
