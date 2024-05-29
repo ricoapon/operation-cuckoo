@@ -1,5 +1,5 @@
 import { BoardState } from "./board-state"
-import { Move, Piece } from "./game-types"
+import { Coordinate, Move, Piece } from "./game-types"
 
 /**
  * Data-class containing the state of an ongoing game.
@@ -25,6 +25,27 @@ export class GameState {
      */
     isP1Turn(): boolean {
         return this.boardState.isP1Turn()
+    }
+
+    /**
+     * Returns the piece object from the array that is the same as the given piece object.
+     * Note that objects are cloned, so indexOf does not work. That is why we need this method.
+     */
+    private _getP1PieceForCoordinate(coordinate: Coordinate, playerPieces: Piece[]): Piece | undefined {
+        for (let piece of playerPieces) {
+            if (piece.c.q === coordinate.q && piece.c.r === coordinate.r) {
+                return piece
+            }
+        }
+        return undefined
+    }
+
+    getP1PieceForCoordinate(coordinate: Coordinate): Piece | undefined {
+        return this._getP1PieceForCoordinate(coordinate, this.getP1Pieces())
+    }
+
+    getP2PieceForCoordinate(coordinate: Coordinate): Piece | undefined {
+        return this._getP1PieceForCoordinate(coordinate, this.getP2Pieces())
     }
 
     getP1Pieces(): Piece[] {
