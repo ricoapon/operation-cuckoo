@@ -30,7 +30,7 @@ export class BoardState {
             { type: PieceType.WARBLER, c: { q: 5, r: 10 } },
         ]
         for (let i = 0; i < 8; i++) {
-            const r0 = Math.ceil(i / 2) + 6
+            const r0 = Math.floor(i / 2) + 6
             p2Pieces.push({ type: PieceType.EGG, c: { q: i, r: r0 } })
             p2Pieces.push({ type: PieceType.EGG, c: { q: i, r: r0 + 1 } })
         }
