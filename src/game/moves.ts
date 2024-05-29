@@ -107,7 +107,7 @@ function isCoordinateOnGrid(coordinate: Coordinate): boolean {
 /**
  * Returns the piece of the given player on given coordinate if it exists.
  */
-function determinePieceOnCoordinate(coordinate: Coordinate, playerPieces: Piece[]): Piece | undefined {
+export function determinePieceOnCoordinate(coordinate: Coordinate, playerPieces: Piece[]): Piece | undefined {
     for (let piece of playerPieces) {
         if (piece.c.q === coordinate.q && piece.c.r === coordinate.r) {
             return piece
