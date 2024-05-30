@@ -112,7 +112,7 @@ use {
 
 /* other styling */
 svg {
-    width: 400px;
+    height: 100%;
     flex: 1;
     background-color: white;
 }

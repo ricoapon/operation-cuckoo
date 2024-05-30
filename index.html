@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue + TS</title>
   </head>
-  <body>
-    <div id="app"></div>
+  <!-- For some reason we must set the height on the body, otherwise the screen is invisible? -->
+  <body style="height: 1px">
+    <div id="app" style="height:90%;"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
