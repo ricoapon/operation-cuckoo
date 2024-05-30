@@ -1,3 +1,4 @@
+import deepEqual from "deep-equal"
 import { BoardState } from "./board-state"
 import { Coordinate, Move, Piece } from "./game-types"
 
@@ -7,6 +8,11 @@ import { Coordinate, Move, Piece } from "./game-types"
 export class GameState {
     private boardState = BoardState.createInitialBoardState()
     private playedMoves: Move[] = []
+
+    findPossibleMove(piece: Piece, newCoordinate: Coordinate): Move | undefined {
+        return this.boardState.getPossibleMoves().find((possibleMove) => 
+            deepEqual(possibleMove.piece, piece) && deepEqual(possibleMove.newCoordinate, newCoordinate))
+    }
 
     makeMove(move: Move) {
         this.playedMoves.push(move)
