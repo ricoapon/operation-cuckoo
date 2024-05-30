@@ -14,10 +14,16 @@ export interface IGameView {
      * Highlight given coordinate.
      */
     highlightHexagon(c: Coordinate): void
+
+    /**
+     * Hightlight given coordinate as a possible move.
+     */
+    highlightPossibleMove(c: Coordinate): void
+
     /**
      * Undo all highlights.
      */
-    undoAllhighlights(): void
+    undoAllhighlights(): void    
 }
 
 export interface IGameController {

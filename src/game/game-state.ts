@@ -19,6 +19,24 @@ export class GameState {
         this.boardState = this.boardState.makeMove(move)
     }
 
+    determinePossibleMovesForPieceOnCoordinate(c: Coordinate): Move[] {
+        const playingPieces = (this.isP1Turn()) ? this.getP1Pieces() : this.getP2Pieces()
+        const piece = this._getPieceForCoordinate(c, playingPieces)
+        if (piece === undefined) {
+            return []
+        }
+
+        let moves: Move[] = []
+
+        for (let move of this.boardState.getPossibleMoves()) {
+            if (deepEqual(move.piece, piece)) {
+                moves.push(move)
+            }
+        }
+
+        return moves
+    }
+
     /**
      * Returns true if the game did not end yet.
      */
@@ -37,7 +55,7 @@ export class GameState {
      * Returns the piece object from the array that is the same as the given piece object.
      * Note that objects are cloned, so indexOf does not work. That is why we need this method.
      */
-    private _getP1PieceForCoordinate(coordinate: Coordinate, playerPieces: Piece[]): Piece | undefined {
+    private _getPieceForCoordinate(coordinate: Coordinate, playerPieces: Piece[]): Piece | undefined {
         for (let piece of playerPieces) {
             if (piece.c.q === coordinate.q && piece.c.r === coordinate.r) {
                 return piece
@@ -47,11 +65,11 @@ export class GameState {
     }
 
     getP1PieceForCoordinate(coordinate: Coordinate): Piece | undefined {
-        return this._getP1PieceForCoordinate(coordinate, this.getP1Pieces())
+        return this._getPieceForCoordinate(coordinate, this.getP1Pieces())
     }
 
     getP2PieceForCoordinate(coordinate: Coordinate): Piece | undefined {
-        return this._getP1PieceForCoordinate(coordinate, this.getP2Pieces())
+        return this._getPieceForCoordinate(coordinate, this.getP2Pieces())
     }
 
     getP1Pieces(): Piece[] {

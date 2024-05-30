@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
 import { Coordinate, Move } from "../game/game-types"
-import { Hexagon, Translate, createHexagonTranslations, createHexagons } from "./hexagon-translations";
+import { Hexagon, Translate, Highlight, HighlightType, createHexagonTranslations, createHexagons } from "./hexagon-translations";
 import { IGameController } from "./interfaces";
-import deepEqual from "deep-equal";
 
 const props = defineProps<{
     gameController: IGameController,
@@ -13,6 +12,8 @@ const strokeWidth = 0.5
 const translatesAllHexagons: Translate[] = createHexagonTranslations(strokeWidth)
 
 let hexagons = ref<Hexagon[]>([])
+let highlights = ref<Highlight[]>([])
+
 onMounted(() => {
     redraw()
 })
@@ -21,7 +22,8 @@ defineExpose({
     transition,
     redraw,
     highlightHexagon,
-    undoAllhighlights
+    undoAllhighlights,
+    highlightPossibleMove,
 })
 
 function transition(_: Move) {
@@ -30,16 +32,21 @@ function transition(_: Move) {
 }
 
 function redraw() {
-    hexagons.value = createHexagons(translatesAllHexagons, props.gameController.getGameState())
+    hexagons.value = createHexagons(translatesAllHexagons, props.gameController.getGameState(), highlights.value)
 }
 
-let highlight = ref<Coordinate | null>(null)
 function highlightHexagon(c: Coordinate) {
-    highlight.value = c
+    highlights.value?.push({ c, type: HighlightType.HEXAGON })
+}
+
+function highlightPossibleMove(c: Coordinate) {
+    // There can be many highlights at the same time, so don't redraw yet.
+    highlights.value?.push({ c, type: HighlightType.POSSIBLE_MOVE })
 }
 
 function undoAllhighlights() {
-    highlight.value = null
+    highlights.value = []
+    redraw()
 }
 
 function onHexagonClick(q: number, r: number) {
@@ -58,6 +65,16 @@ function onHexagonClick(q: number, r: number) {
                 <polygon stroke="yellow" v-bind:stroke-width="2" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0"
                     transform="scale(0.8)" />
             </g>
+
+            <g id="highlight-move-empty-hex">
+                <circle fill="green" cx="0" cy="0" r="3" />
+            </g>
+
+            <g id="highlight-move-filled-hex">
+                <polygon stroke="green" v-bind:stroke-width="2" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0"
+                    transform="scale(0.8)" />
+            </g>
+
             <!-- EGG -->
             <g id="E">
                 <ellipse cx="0" cy="0" rx="4" ry="6"></ellipse>
@@ -74,7 +91,11 @@ function onHexagonClick(q: number, r: number) {
 
         <g class="pod-wrap">
             <template v-for="hexagon in hexagons">
-                <use v-if="deepEqual(highlight, hexagon.t.c)" href="#highlight" font-size="6px" font-family="monospace"
+                <use v-if="hexagon.highlightType === HighlightType.HEXAGON" href="#highlight" font-size="6px"
+                    font-family="monospace" v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'" />
+
+                <use v-if="hexagon.highlightType === HighlightType.POSSIBLE_MOVE && hexagon.p1Piece === undefined && hexagon.p2Piece === undefined" href="#highlight-move-empty-hex"
+                    font-size="6px" font-family="monospace"
                     v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'" />
 
                 <use v-if="hexagon.p1Piece !== undefined" class="p1" v-bind:href="'#' + hexagon.p1Piece.type"
@@ -82,6 +103,11 @@ function onHexagonClick(q: number, r: number) {
 
                 <use v-if="hexagon.p2Piece !== undefined" class="p2" v-bind:href="'#' + hexagon.p2Piece.type"
                     v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'"></use>
+
+                <use v-if="hexagon.highlightType === HighlightType.POSSIBLE_MOVE && (hexagon.p1Piece !== undefined || hexagon.p2Piece !== undefined)" href="#highlight-move-filled-hex"
+                    font-size="6px" font-family="monospace"
+                    v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'" />
+
 
                 <!-- Put the hexagon last, since we want the click to register on the entire hexagon. -->
                 <use href="#hexagon" v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'"

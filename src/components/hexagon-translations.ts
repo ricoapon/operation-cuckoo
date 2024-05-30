@@ -1,3 +1,4 @@
+import deepEqual from "deep-equal"
 import { GameState } from "../game/game-state"
 import { Coordinate, Piece } from "../game/game-types"
 
@@ -5,6 +6,7 @@ export type Hexagon = {
     t: Translate
     p1Piece: Piece | undefined
     p2Piece: Piece | undefined
+    highlightType: HighlightType | undefined
 }
 
 export type Translate = {
@@ -13,13 +15,25 @@ export type Translate = {
     y: number
 }
 
-export function createHexagons(translatesAllHexagons: Translate[], gameState: GameState): Hexagon[] {
+export type Highlight = {
+    c: Coordinate,
+    type: HighlightType
+}
+
+export enum HighlightType {
+    HEXAGON,
+    POSSIBLE_MOVE
+}
+
+export function createHexagons(translatesAllHexagons: Translate[], gameState: GameState, highlights: Highlight[]): Hexagon[] {
     let hexagons = []
     for (let translate of translatesAllHexagons) {
+        const highlight = highlights?.find((highlight) => deepEqual(highlight.c, translate.c))
         hexagons.push({
             t: translate,
             p1Piece: gameState.getP1PieceForCoordinate(translate.c),
-            p2Piece: gameState.getP2PieceForCoordinate(translate.c)
+            p2Piece: gameState.getP2PieceForCoordinate(translate.c),
+            highlightType: highlight !== undefined ? highlight.type : undefined
         })
     }
     return hexagons
