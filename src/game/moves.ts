@@ -1,24 +1,42 @@
 import { Coordinate, Move, Piece, PieceType } from "./game-types";
 import { Direction } from "./direction";
-import deepEqual from "deep-equal";
 
 export function determinePossibleMoves(p1Pieces: Piece[], p2Pieces: Piece[], isP1Turn: boolean): Move[] {
+    // Determining all moves relies a lot on the method call "determinePieceOnCoordinate". If we would loop through the arrays,
+    // it will take a considerable amount of time. This is done so often that the performance is very bad: total time of this method
+    // was more than 500ms. This is all because of the method "determinePieceOnCoordinate", which took ~1ms per execution.
+    // We convert the arrays to a Map, so that lookup of a piece on a coordinate is very fast (O(1)). This reduced the duration of this
+    // method to 5ms.
+    const p1PiecesAsMap = convertArrayToMap(p1Pieces)
+    const p2PiecesAsMap = convertArrayToMap(p2Pieces)
+    const allPiecesAsMap = new Map<String, Piece>([...p1PiecesAsMap.entries(), ...p2PiecesAsMap.entries()])
+
     let movingPlayerPieces = (isP1Turn) ? p1Pieces : p2Pieces
 
     // If there are any capture moves, we return only the capture moves.
-    let captureMoves = movingPlayerPieces.flatMap((piece) => determineAllCaptureMovesForSinglePiece(piece, p1Pieces, p2Pieces, isP1Turn))
+    let captureMoves = movingPlayerPieces.flatMap((piece) => determineAllCaptureMovesForSinglePiece(piece, p1PiecesAsMap, p2PiecesAsMap, isP1Turn))
     if (captureMoves.length > 0) {
         return captureMoves
     }
-    
+
     // No capture moves, so we return all non-capture moves.
-    return movingPlayerPieces.flatMap((piece) => determineAllNonCaptureMovesForSinglePiece(piece, p1Pieces, p2Pieces, isP1Turn))
+    return movingPlayerPieces.flatMap((piece) => determineAllNonCaptureMovesForSinglePiece(piece, allPiecesAsMap, isP1Turn))
+}
+
+function convertArrayToMap(pieces: Piece[]): Map<String, Piece> {
+    const map = new Map<String, Piece>()
+
+    for (let piece of pieces) {
+        map.set(JSON.stringify(piece.c), piece)
+    }
+
+    return map
 }
 
 /**
  * Returns a list of all the moves that are a capture.
  */
-function determineAllCaptureMovesForSinglePiece(piece: Piece, p1Pieces: Piece[], p2Pieces: Piece[], isP1Turn: boolean): Move[] {
+function determineAllCaptureMovesForSinglePiece(piece: Piece, p1Pieces: Map<String, Piece>, p2Pieces: Map<String, Piece>, isP1Turn: boolean): Move[] {
     let captureMoves: Move[] = []
 
     // We have to check all directions, since we can capture backwards.
@@ -45,19 +63,20 @@ function determineAllCaptureMovesForSinglePiece(piece: Piece, p1Pieces: Piece[],
             captureMoves.push({ piece: piece, newCoordinate: newCoordinate, isCapture: true })
         }
     }
-
     return captureMoves
 }
 
 /**
  * Determines all possible moves for a single piece that do not include a capture.
  */
-function determineAllNonCaptureMovesForSinglePiece(piece: Piece, p1Pieces: Piece[], p2Pieces: Piece[], isP1Turn: boolean): Move[] {
+function determineAllNonCaptureMovesForSinglePiece(piece: Piece, allPieces: Map<String, Piece>, isP1Turn: boolean): Move[] {
+    // Since we exclude any capture, we can treat any piece as a piece that stands in the way.
+    // So input argument needs to be all pieces together.
+
     let moves: Move[] = []
     let directions = (isP1Turn) ? [Direction.DOWN_LEFT, Direction.DOWN, Direction.DOWN_RIGHT] :
         [Direction.UP_LEFT, Direction.UP, Direction.UP_RIGHT]
-    // Since we exclude any capture, we can treat any piece as a piece that stands in the way.
-    let allPieces = p1Pieces.concat(p2Pieces)
+
 
     for (let direction of directions) {
         let newCoordinate = direction.apply(piece.c)
@@ -72,7 +91,6 @@ function determineAllNonCaptureMovesForSinglePiece(piece: Piece, p1Pieces: Piece
             }
         }
     }
-
     return moves
 }
 
@@ -108,6 +126,6 @@ function isCoordinateOnGrid(coordinate: Coordinate): boolean {
 /**
  * Returns the piece of the given player on given coordinate if it exists.
  */
-export function determinePieceOnCoordinate(coordinate: Coordinate, playerPieces: Piece[]): Piece | undefined {
-    return playerPieces.find((piece) => deepEqual(piece.c, coordinate))
+export function determinePieceOnCoordinate(coordinate: Coordinate, playerPieces: Map<String, Piece>): Piece | undefined {
+    return playerPieces.get(JSON.stringify(coordinate))
 }

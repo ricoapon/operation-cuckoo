@@ -1,6 +1,6 @@
 import deepEqual from "deep-equal"
 import { Move, Piece, PieceType, PlayingState } from "./game-types"
-import { determinePieceOnCoordinate, determinePossibleMoves } from "./moves"
+import { determinePossibleMoves } from "./moves"
 
 /**
  * Immutable data-class representing all the pieces located on the board.
@@ -63,7 +63,7 @@ export class BoardState {
         // Update the existing piece, and if needed delete the captured piece.
         this.getPiece(givenMove.piece, movingPlayerPieces).c = givenMove.newCoordinate
         if (givenMove.isCapture) {
-            let capturedPiece = determinePieceOnCoordinate(givenMove.newCoordinate, otherPlayerPieces)
+            const capturedPiece = otherPlayerPieces.find((piece) => deepEqual(piece.c, givenMove.newCoordinate))
             if (capturedPiece === undefined) {
                 throw Error('Could not find piece to capture on coordinate (' + givenMove.newCoordinate + ') in the list of other player pieces (' + otherPlayerPieces + ')')
             }
