@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import GameView from './components/GameView.vue'
-import { GameState } from './game/game-state';
 </script>
 
 <template>
-  <GameView v-bind:game-state="new GameState()"/>
+  <GameView/>
 </template>
 
 <style scoped>

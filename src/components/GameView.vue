@@ -1,22 +1,21 @@
 <script setup lang="ts">
-import { Ref, ref } from "vue"
-import { GameState } from "../game/game-state";
+import { Ref, onMounted, ref } from "vue"
 import BoardView from './BoardView.vue'
-import { Coordinate } from "../game/game-types";
+import { GameController } from "./game-controller"
+import { IGameView } from "./interfaces"
+import { GameState } from "../game/game-state";
 
-const props = defineProps<{
-    gameState: GameState
-}>()
-
+const gameController = new GameController(new GameState())
 const boardView: Ref<typeof BoardView | null> = ref(null)
 
-const clicked = ref<number[]>([])
-function onHexagonClick(c: Coordinate) {
-    clicked.value = [c.q, c.r]
-    boardView.value!.toggleHighlight(c)
-}
+onMounted(() => {
+    if (boardView.value !== null) {
+        gameController.setGameView((boardView.value as unknown) as IGameView)
+    }
+})
+
 </script>
 
 <template>
-    <BoardView ref="boardView" v-bind:game-state="props.gameState" @clickHexagon="onHexagonClick" />
+    <BoardView ref="boardView" v-bind:game-controller="gameController" />
 </template>
