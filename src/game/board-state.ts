@@ -1,3 +1,4 @@
+import deepEqual from "deep-equal"
 import { Move, Piece, PieceType, PlayingState } from "./game-types"
 import { determinePieceOnCoordinate, determinePossibleMoves } from "./moves"
 
@@ -77,13 +78,7 @@ export class BoardState {
      * returns the move from the array possibleMoves that matches the given move.
      */
     private findPossibleMove(move: Move): Move | undefined {
-        const moveAsString = JSON.stringify(move)
-        for (let possibleMove of this.possibleMoves) {
-            if (moveAsString === JSON.stringify(possibleMove)) {
-                return possibleMove
-            }
-        }
-        return undefined
+        return this.possibleMoves.find((possibleMove) => deepEqual(move, possibleMove))
     }
 
     /**
@@ -108,17 +103,19 @@ export class BoardState {
         return structuredClone(this.p2Pieces)
     }
 
+    getPossibleMoves(): Move[] {
+        return this.possibleMoves
+    }
 
     /**
      * Returns the piece object from the array that is the same as the given piece object.
      * Note that objects are cloned, so indexOf does not work. That is why we need this method.
      */
-    private getPiece(pieceToFind: Piece, playerPieces: Piece[]) {
-        for (let piece of playerPieces) {
-            if (piece.type === pieceToFind.type && piece.c.q === pieceToFind.c.q && piece.c.r === pieceToFind.c.r) {
-                return piece
-            }
+    private getPiece(pieceToFind: Piece, playerPieces: Piece[]): Piece {
+        const result = playerPieces.find((piece) => deepEqual(piece, pieceToFind))
+        if (result === undefined) {
+            throw Error('Could not find piece (' + pieceToFind + ') in list of pieces (' + playerPieces + ')')
         }
-        throw Error('Could not find piece (' + pieceToFind + ') in list of pieces (' + playerPieces + ')')
+        return result
     }
 }

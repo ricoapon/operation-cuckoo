@@ -1,5 +1,6 @@
 import { Coordinate, Move, Piece, PieceType } from "./game-types";
 import { Direction } from "./direction";
+import deepEqual from "deep-equal";
 
 export function determinePossibleMoves(p1Pieces: Piece[], p2Pieces: Piece[], isP1Turn: boolean): Move[] {
     let movingPlayerPieces = (isP1Turn) ? p1Pieces : p2Pieces
@@ -108,11 +109,5 @@ function isCoordinateOnGrid(coordinate: Coordinate): boolean {
  * Returns the piece of the given player on given coordinate if it exists.
  */
 export function determinePieceOnCoordinate(coordinate: Coordinate, playerPieces: Piece[]): Piece | undefined {
-    for (let piece of playerPieces) {
-        if (piece.c.q === coordinate.q && piece.c.r === coordinate.r) {
-            return piece
-        }
-    }
-
-    return undefined
+    return playerPieces.find((piece) => deepEqual(piece.c, coordinate))
 }
