@@ -1,9 +1,28 @@
-import { Coordinate } from "../game/game-types"
+import { GameState } from "../game/game-state"
+import { Coordinate, Piece } from "../game/game-types"
+
+export type Hexagon = {
+    t: Translate
+    p1Piece: Piece | undefined
+    p2Piece: Piece | undefined
+}
 
 export type Translate = {
     c: Coordinate
     x: number
     y: number
+}
+
+export function createHexagons(translatesAllHexagons: Translate[], gameState: GameState): Hexagon[] {
+    let hexagons = []
+    for (let translate of translatesAllHexagons) {
+        hexagons.push({
+            t: translate,
+            p1Piece: gameState.getP1PieceForCoordinate(translate.c),
+            p2Piece: gameState.getP2PieceForCoordinate(translate.c)
+        })
+    }
+    return hexagons
 }
 
 export function createHexagonTranslations(strokeWidth: number): Translate[] {

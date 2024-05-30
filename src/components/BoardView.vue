@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue"
-import { Coordinate, Piece } from "../game/game-types"
-import { Translate, createHexagonTranslations } from "./hexagon-translations";
+import { ref, watch } from "vue"
+import { Coordinate } from "../game/game-types"
+import { Hexagon, Translate, createHexagonTranslations, createHexagons } from "./hexagon-translations";
 import { GameState } from "../game/game-state";
 
 const props = defineProps<{
-    gameState: GameState
+    gameState: GameState,
 }>()
 
 const emit = defineEmits<{
@@ -19,21 +19,10 @@ defineExpose({
 const strokeWidth = 0.5
 const translatesAllHexagons: Translate[] = createHexagonTranslations(strokeWidth)
 
-type Hexagon = {
-    t: Translate
-    p1Piece: Piece | undefined
-    p2Piece: Piece | undefined
-}
-
-// TODO: recalculate this array every time gameState changes.
-let hexagons: Hexagon[] = []
-for (let translate of translatesAllHexagons) {
-    hexagons.push({
-        t: translate,
-        p1Piece: props.gameState.getP1PieceForCoordinate(translate.c),
-        p2Piece: props.gameState.getP2PieceForCoordinate(translate.c)
-    })
-}
+let hexagons: Hexagon[] = createHexagons(translatesAllHexagons, props.gameState)
+watch(() => props.gameState, (selection, prevSelection) => {
+    createHexagons(translatesAllHexagons, selection)
+})
 
 function onHexagonClick(q: number, r: number) {
     const c: Coordinate = { q, r }
@@ -50,6 +39,7 @@ function toggleHighlight(coordinate: Coordinate) {
         highlight.value = coordinate
     }
 }
+
 </script>
 
 <template>
@@ -86,8 +76,7 @@ function toggleHighlight(coordinate: Coordinate) {
                 <use v-if="hexagon.p1Piece !== undefined" class="p1" v-bind:href="'#' + hexagon.p1Piece.type"
                     v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'"></use>
 
-                <use v-if="hexagon.p2Piece !== undefined" class="p2"
-                    v-bind:href="'#' + hexagon.p2Piece.type"
+                <use v-if="hexagon.p2Piece !== undefined" class="p2" v-bind:href="'#' + hexagon.p2Piece.type"
                     v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'"></use>
             </template>
         </g>
