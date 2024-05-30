@@ -24,7 +24,7 @@ defineExpose({
     undoAllhighlights
 })
 
-function transition(move: Move) {
+function transition(_: Move) {
     // For now we just redraw. Later on, we need to implement some transition for moves.
     redraw()
 }
