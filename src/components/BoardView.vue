@@ -1,62 +1,59 @@
-<script setup lang="ts">
-import { onMounted, ref } from "vue"
+<script lang="ts">
+import { Component, Prop, Vue, toNative } from "vue-facing-decorator";
 import { Coordinate, Move } from "../game/game-types"
 import { Hexagon, Translate, Highlight, HighlightType, createHexagonTranslations, createHexagons } from "./hexagon-translations";
-import { IGameController } from "./interfaces";
+import { IGameController, IGameView } from "./interfaces";
 
-const props = defineProps<{
-    gameController: IGameController,
-}>()
+@Component
+export class BoardView extends Vue implements IGameView {
+    @Prop({ required: true }) gameController!: IGameController;
+    readonly strokeWidth = 0.5
+    readonly translatesAllHexagons: Translate[] = createHexagonTranslations(this.strokeWidth)
+    hexagons: Hexagon[] = []
+    highlights: Highlight[] = []
 
-const strokeWidth = 0.5
-const translatesAllHexagons: Translate[] = createHexagonTranslations(strokeWidth)
+    mounted() {
+        this.gameController.setGameView(this)
+        this.redraw()
+    }
 
-let hexagons = ref<Hexagon[]>([])
-let highlights = ref<Highlight[]>([])
+    transition(_: Move) {
+        // For now we just redraw. Later on, we need to implement some transition for moves.
+        this.redraw()
+    }
 
-onMounted(() => {
-    redraw()
-})
+    redraw() {
+        this.hexagons = createHexagons(this.translatesAllHexagons, this.gameController.getGameState(), this.highlights)
+    }
 
-defineExpose({
-    transition,
-    redraw,
-    highlightHexagon,
-    undoAllhighlights,
-    highlightPossibleMove,
-})
+    highlightHexagon(c: Coordinate) {
+        this.highlights.push({ c, type: HighlightType.HEXAGON })
+    }
 
-function transition(_: Move) {
-    // For now we just redraw. Later on, we need to implement some transition for moves.
-    redraw()
+    highlightPossibleMove(c: Coordinate) {
+        // There can be many highlights at the same time, so don't redraw yet.
+        this.highlights.push({ c, type: HighlightType.POSSIBLE_MOVE })
+    }
+
+    undoAllhighlights() {
+        this.highlights = []
+        this.redraw()
+    }
+
+    onHexagonClick(q: number, r: number) {
+        this.gameController.clickHexagon({ q, r })
+    }
+
+    // Constants needed for the template.
+    readonly HighlightTypeHexagon = HighlightType.HEXAGON
+    readonly HighlightTypePossibleMove = HighlightType.POSSIBLE_MOVE
 }
-
-function redraw() {
-    hexagons.value = createHexagons(translatesAllHexagons, props.gameController.getGameState(), highlights.value)
-}
-
-function highlightHexagon(c: Coordinate) {
-    highlights.value?.push({ c, type: HighlightType.HEXAGON })
-}
-
-function highlightPossibleMove(c: Coordinate) {
-    // There can be many highlights at the same time, so don't redraw yet.
-    highlights.value?.push({ c, type: HighlightType.POSSIBLE_MOVE })
-}
-
-function undoAllhighlights() {
-    highlights.value = []
-    redraw()
-}
-
-function onHexagonClick(q: number, r: number) {
-    props.gameController.clickHexagon({ q, r })
-}
+export default toNative(BoardView)
 
 </script>
 
 <template>
-    <svg viewBox="0 0 110.5 162.25" v-on:focusout="() => { props.gameController.loseFocus() }">
+    <svg viewBox="0 0 110.5 162.25" v-on:focusout="() => { gameController.loseFocus() }">
         <defs>
             <g id="hexagon">
                 <polygon stroke="#000000" v-bind:stroke-width="strokeWidth" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0" />
@@ -91,11 +88,11 @@ function onHexagonClick(q: number, r: number) {
 
         <g class="pod-wrap">
             <template v-for="hexagon in hexagons">
-                <use v-if="hexagon.highlightType === HighlightType.HEXAGON" href="#highlight" font-size="6px"
+                <use v-if="hexagon.highlightType === HighlightTypeHexagon" href="#highlight" font-size="6px"
                     font-family="monospace" v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'" />
 
-                <use v-if="hexagon.highlightType === HighlightType.POSSIBLE_MOVE && hexagon.p1Piece === undefined && hexagon.p2Piece === undefined" href="#highlight-move-empty-hex"
-                    font-size="6px" font-family="monospace"
+                <use v-if="hexagon.highlightType === HighlightTypePossibleMove && hexagon.p1Piece === undefined && hexagon.p2Piece === undefined"
+                    href="#highlight-move-empty-hex" font-size="6px" font-family="monospace"
                     v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'" />
 
                 <use v-if="hexagon.p1Piece !== undefined" class="p1" v-bind:href="'#' + hexagon.p1Piece.type"
@@ -104,16 +101,14 @@ function onHexagonClick(q: number, r: number) {
                 <use v-if="hexagon.p2Piece !== undefined" class="p2" v-bind:href="'#' + hexagon.p2Piece.type"
                     v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'"></use>
 
-                <use v-if="hexagon.highlightType === HighlightType.POSSIBLE_MOVE && (hexagon.p1Piece !== undefined || hexagon.p2Piece !== undefined)" href="#highlight-move-filled-hex"
-                    font-size="6px" font-family="monospace"
+                <use v-if="hexagon.highlightType === HighlightTypePossibleMove && (hexagon.p1Piece !== undefined || hexagon.p2Piece !== undefined)"
+                    href="#highlight-move-filled-hex" font-size="6px" font-family="monospace"
                     v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'" />
-
 
                 <!-- Put the hexagon last, since we want the click to register on the entire hexagon. -->
                 <use href="#hexagon" v-bind:transform="'translate(' + hexagon.t.x + ',' + hexagon.t.y + ')'"
                     v-bind:id="'hexagon_' + hexagon.t.c.q + '_' + hexagon.t.c.r"
                     v-on:click="onHexagonClick(hexagon.t.c.q, hexagon.t.c.r)" />
-
             </template>
         </g>
     </svg>

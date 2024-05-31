@@ -12,7 +12,8 @@
   "dependencies": {
     "@types/deep-equal": "^1.0.4",
     "deep-equal": "^2.2.3",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "vue-facing-decorator": "^3.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
