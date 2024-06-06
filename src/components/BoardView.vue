@@ -53,7 +53,7 @@ export default toNative(BoardView)
 </script>
 
 <template>
-    <svg viewBox="0 0 110.5 162.25" v-on:focusout="() => { gameController.loseFocus() }">
+    <svg viewBox="0 0 110.5 162.25" v-on:focusout="() => { gameController.loseFocus() }" class="rounded-1">
         <defs>
             <g id="hexagon">
                 <polygon stroke="#000000" v-bind:stroke-width="strokeWidth" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0" />
@@ -134,7 +134,6 @@ use {
 /* other styling */
 svg {
     height: 100%;
-    flex: 1;
     background-color: white;
 }
 

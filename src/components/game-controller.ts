@@ -7,6 +7,10 @@ export class GameController implements IGameController {
     private gameView: IGameView | undefined;
     private highlightedCoordinate: Coordinate | undefined
 
+    getMoves(): Move[] {
+        return this.gameState.getPlayedMoves()
+    }
+    
     constructor(gameState: GameState) {
         this.gameState = gameState
     }

@@ -1,13 +1,15 @@
 import deepEqual from "deep-equal"
 import { BoardState } from "./board-state"
 import { Coordinate, Move, Piece } from "./game-types"
+import { reactive } from "vue"
 
 /**
  * Data-class containing the state of an ongoing game.
  */
 export class GameState {
     private boardState = BoardState.createInitialBoardState()
-    private playedMoves: Move[] = []
+    // Needs to be reactive, because otherwise changes in this array doesn't update on the screen.
+    private playedMoves: Move[] = reactive([])
 
     findPossibleMove(piece: Piece, newCoordinate: Coordinate): Move | undefined {
         return this.boardState.getPossibleMoves().find((possibleMove) => 
