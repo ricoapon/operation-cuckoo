@@ -54,17 +54,17 @@ function moveToString(move: Move): string {
             Moves
         </div>
 
-        <div v-for="(moves, index) in getIterableTwoMoves()" class="d-flex">
-            <div class="move px-3 py-1 text-bg-dark" v-bind:class="(index == 0) ? 'selected' : 'bg-dark'">
+        <div v-for="moves in getIterableTwoMoves()" class="d-flex">
+            <div class="move px-3 py-1 text-bg-dark flex-fill" >
                 {{ moveToString(moves[0]) }}
             </div>
-            <div v-if="moves.length == 2" class="move px-3 py-1 bg-dark text-bg-dark">
-                {{ moveToString(moves[1]) }}
+            <div class="move px-3 py-1 bg-dark text-bg-dark flex-fill" v-bind:class="(moves.length == 2) ? '' : 'hidden'">
+                {{ moveToString((moves.length == 2) ? moves[1] : dummyMove) }}
             </div>
         </div>
 
         <!-- Add two hidden moves, so that the width of the bar is always the same. -->
-        <div v-if="moves.length < 2" class="d-flex">
+        <div class="d-flex">
             <div class="move px-3 py-1 text-bg-dark hidden">
                 {{ moveToString(dummyMove) }}
             </div>
@@ -89,9 +89,5 @@ function moveToString(move: Move): string {
 .selected {
     background-color: var(--bs-blue) !important;
     filter: brightness(0.50);
-}
-
-span {
-    filter: none !important;
 }
 </style>
