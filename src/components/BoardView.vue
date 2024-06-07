@@ -56,19 +56,19 @@ export default toNative(BoardView)
     <svg viewBox="0 0 110.5 162.25" v-on:focusout="() => { gameController.loseFocus() }" class="rounded-1">
         <defs>
             <g id="hexagon">
-                <polygon stroke="#000000" v-bind:stroke-width="strokeWidth" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0" />
+                <polygon stroke="var(--bs-gray)" v-bind:stroke-width="strokeWidth" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0" />
             </g>
             <g id="highlight">
-                <polygon stroke="yellow" v-bind:stroke-width="2" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0"
+                <polygon stroke="var(--bs-success)" v-bind:stroke-width="2" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0"
                     transform="scale(0.8)" />
             </g>
 
             <g id="highlight-move-empty-hex">
-                <circle fill="green" cx="0" cy="0" r="3" />
+                <circle fill="var(--bs-success)" cx="0" cy="0" r="3" />
             </g>
 
             <g id="highlight-move-filled-hex">
-                <polygon stroke="green" v-bind:stroke-width="2" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0"
+                <polygon stroke="var(--bs-success)" v-bind:stroke-width="2" points="5,-9 -5,-9 -10,0 -5,9 5,9 10,0"
                     transform="scale(0.8)" />
             </g>
 
@@ -115,7 +115,6 @@ export default toNative(BoardView)
 </template>
 
 <style scoped>
-/* grid styling */
 use {
     transition: 0.4s;
     cursor: pointer;
@@ -123,18 +122,16 @@ use {
 }
 
 .p1 {
-    fill: #007bff
+    fill: var(--bs-blue);
 }
 
 .p2 {
-    fill: #dc3545
+    fill: var(--bs-red);
 }
 
-
-/* other styling */
 svg {
     height: 100%;
-    background-color: white;
+    background-color: var(--bs-dark);
 }
 
 svg:focus {
