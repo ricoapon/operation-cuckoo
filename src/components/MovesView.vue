@@ -14,26 +14,6 @@ const dummyMove: Move = {
     isCapture: false
 }
 
-function getIterableTwoMoves(): Move[][] {
-    const moves = props.gameController.getMoves()
-
-    if (moves === undefined) {
-        return []
-    }
-
-    const result = []
-    for (let i = 0; i < moves.length; i += 2) {
-        const temp = []
-        temp.push(moves[i])
-        if (i + 1 < moves.length) {
-            temp.push(moves[i + 1])
-        }
-        result.push(temp)
-    }
-
-    return result
-}
-
 function coordinateAsString(c: Coordinate): string {
     return String.fromCharCode(98 + c.q) + c.r
 }
@@ -46,48 +26,70 @@ function moveToString(move: Move): string {
 
     return pieceAsString + fromCoordinateAsString + captureAsString + toCoordinateAsString
 }
+
+function moveIdentifier(index: number): string {
+    if (index % 2 !== 0) {
+        return ''
+    }
+    return '' + (index / 2) + '.'
+}
 </script>
 
 <template>
-    <div class="d-block bg-secondary ms-3 rounded-1 border border-secondary">
-        <div class="header"  v-on:click="moves.push(dummyMove)">
+    <div id="move-container" class="d-block bg-secondary ms-3 rounded-1 border border-secondary">
+        <div class="text-center border-bottom mb-1 text-white" v-on:click="moves.push(dummyMove)">
             Moves
         </div>
 
-        <div v-for="moves in getIterableTwoMoves()" class="d-flex">
-            <div class="move px-3 py-1 text-bg-dark flex-fill" >
-                {{ moveToString(moves[0]) }}
-            </div>
-            <div class="move px-3 py-1 bg-dark text-bg-dark flex-fill" v-bind:class="(moves.length == 2) ? '' : 'hidden'">
-                {{ moveToString((moves.length == 2) ? moves[1] : dummyMove) }}
-            </div>
-        </div>
+        <table>
+            <tr>
+                <td v-for="(move, index) in moves">
+                    <div class="item move px-1 rounded" v-bind:class="(index == moves.length - 1) ? 'selected' : ''">
+                        {{ moveIdentifier(index) }}{{ moveToString(move) }}
+                    </div>
+                </td>
+            </tr>
+        </table>
 
-        <!-- Add two hidden moves, so that the width of the bar is always the same. -->
-        <div class="d-flex">
-            <div class="move px-3 py-1 text-bg-dark hidden">
-                {{ moveToString(dummyMove) }}
-            </div>
-            <div class="move px-3 py-1 text-bg-dark hidden">
-                {{ moveToString(dummyMove) }}
-            </div>
+
+        <div id="c" class="flex flex-wrap">
+            <span class="move p-1 rounded" v-for="(move, index) in moves">{{ moveIdentifier(index) }}{{
+                moveToString(move) }}</span>
         </div>
     </div>
 </template>
 
 <style scoped>
-.hidden {
-    visibility: hidden;
+
+table {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+}
+
+table td {
+    display: inline-block;
+}
+
+.item {
+    background: white;
+    display: inline-block;
+}
+
+#move-container {
+    width: 15vw;
 }
 
 .move:hover {
     background-color: var(--bs-blue) !important;
     cursor: pointer;
     filter: none !important;
+    color: white;
 }
 
 .selected {
     background-color: var(--bs-blue) !important;
-    filter: brightness(0.50);
+    filter: brightness(0.70);
+    color: white;
 }
 </style>
