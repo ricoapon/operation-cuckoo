@@ -18,8 +18,16 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="h-100 d-flex p-5">
+    <div class="d-flex gap-2 square">
         <BoardView ref="boardView" v-bind:game-controller="gameController" />
         <MoveView v-bind:game-controller="gameController" />
     </div>
 </template>
+
+<style scoped>
+.square {
+    height: min(80vb, 80vi);
+    width: min(80vb, 80vi);
+    margin: 0 auto;
+}
+</style>

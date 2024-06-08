@@ -130,7 +130,6 @@ use {
 }
 
 svg {
-    height: 100%;
     background-color: var(--bs-dark);
 }
 

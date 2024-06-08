@@ -36,55 +36,34 @@ function moveIdentifier(index: number): string {
 </script>
 
 <template>
-    <div id="move-container" class="d-block bg-secondary ms-3 rounded-1 border border-secondary">
+    <div class="move-container d-block bg-secondary rounded-1 border border-secondary overflow-y-auto overflow-x-hidden">
         <div class="text-center border-bottom mb-1 text-white" v-on:click="moves.push(dummyMove)">
             Moves
         </div>
 
-        <table>
-            <tr>
-                <td v-for="(move, index) in moves">
-                    <div class="item move px-1 rounded" v-bind:class="(index == moves.length - 1) ? 'selected' : ''">
-                        {{ moveIdentifier(index) }}{{ moveToString(move) }}
-                    </div>
-                </td>
-            </tr>
-        </table>
-
-
-        <div id="c" class="flex flex-wrap">
-            <span class="move p-1 rounded" v-for="(move, index) in moves">{{ moveIdentifier(index) }}{{
-                moveToString(move) }}</span>
+        <div id="c" class="d-flex flex-wrap">
+            <span v-for="(move, index) in moves" class="move px-1 me-1 rounded bg-white" v-bind:class="(index == moves.length - 1) ? 'selected' : ''">
+                {{ moveIdentifier(index) }}{{ moveToString(move) }}
+            </span>
         </div>
     </div>
 </template>
 
 <style scoped>
-
-table {
-    display: block;
-    width: 100%;
-    max-width: 400px;
+.move-container {
+    width: 30%;
 }
 
-table td {
-    display: inline-block;
-}
-
-.item {
-    background: white;
-    display: inline-block;
-}
-
-#move-container {
-    width: 15vw;
+.move {
+    font-size: 12px;
+    margin-bottom: 3px;
 }
 
 .move:hover {
     background-color: var(--bs-blue) !important;
     cursor: pointer;
     filter: none !important;
-    color: white;
+    color: var(--bs-white);
 }
 
 .selected {
